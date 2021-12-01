@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Equipment Generator Tool</title>
+	<meta name="author" content="Tyclo">
+	<meta name="keywords" content="SWG, SWGEmu, Core3, Tool">
+	<meta name="version" content="1.4">
+	<meta name="description"
+		content="Made by https://github.com/Sphazz - For use with https://github.com/Sphazz/mtgserver/tree/equipmentGenerator - Must be AGPL compliant server to use.">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+<body>
+	<nav>
+		<!--<div id="menu-bar">
+			<button onclick="minimizeApp()">Min</button>
+			<button onclick="maximizeApp()" id="maximize-button">Max</button>
+			<button onclick="closeApp()">Close</button>
+		</div>-->
+		<div class="container">
+			<div id="title">
+				<h1 class="page-title">Equipment Generator</h1>
+			</div>
+			<div id="navigation">
+				<button id="weapon-tab" class="nav-tab active"
+					onclick="openTab(event.currentTarget, 'weapon-container')">Weapon</button>
+				<button id="armor-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'armor-container')">Armor</button>
+				<button disabled>Stim</button>
+			</div>
+			
+		</div>
+	</nav>
+	<div class="main-container container">
+		<div id="weapon-container" class="container-inner tab-content content-selected">
+			<h2>Weapon</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="weapon-typeSelect">Weapon Type:</label>
+					<select id="weapon-typeSelect" name="weapon-typeSelect"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-templateSelect">Weapon Template:</label>
+					<select id="weapon-templateSelect" name="weapon-templateSelect">
+					</select>
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="weapon-condition">Condition:</label>
+					<input type="number" id="weapon-condition" name="weapon-condition" class="weapon-data" value="1000" min="1"
+						max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="maxCondition">Maximum Condition:</label>
+					<input type="number" id="weapon-maxCondition" name="weapon-maxCondition" class="weapon-data" value="1000"
+						min="1" max="999999">
+				</div>
+			</div>
+			<br>
+
+			<h2>Damage</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="weapon-damageTypeSelect">Type:</label>
+					<select value="1" id="weapon-damageTypeSelect" name="weapon-damageTypeSelect">
+						<option value="1">KINETIC</option>
+						<option value="2">ENERGY</option>
+						<option value="4">BLAST</option>
+						<option value="8">STUN</option>
+						<option value="16">LIGHTSABER</option>
+						<option value="32">HEAT</option>
+						<option value="64">COLD</option>
+						<option value="128">ACID</option>
+						<option value="256">ELECTRICITY</option>
+					</select>
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-armorPiercingSelect">Armor Piercing:</label>
+					<select value="1" id="weapon-armorPiercingSelect" name="weapon-armorPiercingSelect">
+						<option value="0">NONE</option>
+						<option value="1">LIGHT</option>
+						<option value="2">MEDIUM</option>
+						<option value="3">HEAVY</option>
+					</select>
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="weapon-speed">Speed:</label>
+					<input type="number" id="weapon-speed" name="weapon-speed" class="weapon-data" value="1.0" min="0.1" max="16"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-minDamage">Minimum Damage:</label>
+					<input type="number" id="weapon-minDamage" name="weapon-minDamage" class="weapon-data" value="100" min="1"
+						max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-maxDamage">Maximum Damage:</label>
+					<input type="number" id="weapon-maxDamage" name="weapon-maxDamage" class="weapon-data" value="100" min="1"
+						max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-wound"> Wound Chance:</label>
+					<input type="number" id="weapon-wound" name="weapon-wound" class="weapon-data" value="0" min="0" max="9999"
+						step="0.1">
+				</div>
+			</div>
+			<br>
+
+			<h2>Range Modifiers</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="weapon-pbacc">Point Blank Accuracy:</label>
+					<input type="number" id="weapon-pbacc" name="weapon-pbacc" class="weapon-data" value="1" min="-50" max="100">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-idealacc">Ideal Accuracy:</label>
+					<input type="number" id="weapon-idealacc" name="weapon-idealacc" class="weapon-data" value="1" min="-50"
+						max="100">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-mracc">Max Accuracy:</label>
+					<input type="number" id="weapon-mracc" name="weapon-mracc" class="weapon-data" value="1" min="-50" max="100">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-idealrange">Ideal Range:</label>
+					<input type="number" id="weapon-idealrange" name="weapon-idealrange" class="weapon-data" value="6" min="0"
+						max="255">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-maxRange">Max Range</label>
+					<input type="number" id="weapon-maxRange" name="weapon-maxRange" class="weapon-data" value="64" min="0"
+						max="255">
+				</div>
+			</div>
+			<br>
+
+			<h2>Special Attack Cost</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="weapon-hac">Health Attack Cost:</label>
+					<input type="number" id="hac" name="hac" class="weapon-data" value="100" min="0" max="9999">
+				</div>
+				<div class="input-wrapper">
+					<label for="weapon-aac">Action Attack Cost</label>
+					<input type="number" id="aac" name="aac" class="weapon-data" value="100" min="0" max="9999"">
+				</div>
+				<div class=" input-wrapper">
+					<label for="weapon-mac">Mind Attack Cost:</label>
+					<input type="number" id="mac" name="mac" class="weapon-data" value="100" min="0" max="9999">
+				</div>
+			</div>
+
+			<br>
+			<hr>
+			<br>
+
+			<h1>Output:</h1>
+			<div class="row">
+				<div class="input-wrapper">
+					<textarea id="weapon-output" rows="3"></textarea>
+				</div>
+				<button id="weapon-copyText">Copy</button>
+			</div>
+		</div>
+		<div id="armor-container" class="container-inner tab-content">
+			<h2>Armor</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="armor-typeSelect">Armor Set:</label>
+					<select id="armor-typeSelect" name="armor-typeSelect"></select>
+				</div>
+				<div class="input-wrapper checkbox-wrapper">
+					<label for="armor-setCheckbox">Full Set:</label>
+					<input type="checkbox" id="armor-setCheckbox" name="armor-setCheckbox" class="center">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-templateSelect">Armor Piece:</label>
+					<select id="armor-templateSelect" name="armor-templateSelect">
+					</select>
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="armor-condition">Condition:</label>
+					<input type="number" id="armor-condition" name="armor-condition" class="armor-data" value="1000" min="1"
+						max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="maxCondition">Maximum Condition:</label>
+					<input type="number" id="armor-maxCondition" name="armor-maxCondition" class="armor-data" value="1000" min="1"
+						max="999999">
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="armor-ratingSelect">Armor Rating:</label>
+					<select value="1" id="armor-ratingSelect" name="armor-ratingSelect">
+						<option value="0">NONE</option>
+						<option value="1">LIGHT</option>
+						<option value="2">MEDIUM</option>
+						<option value="3">HEAVY</option>
+					</select>
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-sockets">Sockets:</label>
+					<input type="number" id="armor-sockets" name="armor-sockets" class="armor-data" value="4" min="0" max="4"
+						step="1">
+				</div>
+			</div>
+			<br>
+
+			<h2>Resists</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="armor-kinetic">Kinetic:</label>
+					<input type="number" id="armor-kinetic" name="armor-kinetic" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-energy">Energy:</label>
+					<input type="number" id="armor-energy" name="armor-energy" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-electricity">Electricity:</label>
+					<input type="number" id="armor-electricity" name="armor-electricity" class="armor-data" value="80" min="0"
+						max="100" step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-blast">Blast:</label>
+					<input type="number" id="armor-blast" name="armor-blast" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-heat">Heat:</label>
+					<input type="number" id="armor-heat" name="armor-heat" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="armor-cold">Cold:</label>
+					<input type="number" id="armor-cold" name="armor-cold" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-acid">Acid:</label>
+					<input type="number" id="armor-acid" name="armor-acid" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-stun">Stun:</label>
+					<input type="number" id="armor-stun" name="armor-stun" class="armor-data" value="80" min="0" max="100"
+						step="0.1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-lightsaber">Lightsaber:</label>
+					<input type="number" id="armor-lightsaber" name="armor-lightsaber" class="armor-data" value="80" min="0"
+						max="100" step="0.1">
+				</div>
+			</div>
+			<br>
+
+			<h2>Encumbrance</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="armor-healthenc">Health:</label>
+					<input type="number" id="armor-healthenc" name="armor-healthenc" class="armor-data" value="100" min="0"
+						max="1000" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-actionenc">Action:</label>
+					<input type="number" id="armor-actionenc" name="armor-actionenc" class="armor-data" value="100" min="0"
+						max="1000" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="armor-mindenc">Mind:</label>
+					<input type="number" id="armor-mindenc" name="armor-mindenc" class="armor-data" value="100" min="0" max="1000"
+						step="1">
+				</div>
+			</div>
+
+
+			<br>
+			<hr>
+			<br>
+
+			<h1>Output:</h1>
+			<div class="row">
+				<div class="input-wrapper">
+					<textarea id="armor-output" rows="3"></textarea>
+				</div>
+				<button id="armor-copyText">Copy</button>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<p>Created by <a href="https://github.com/Sphazz/mtgserver/tree/generateEquipment" target="_blank">Tyclo (Sphazz)</a> for use by
+				AGPL compliant SWG Emulator Servers</p> <div id="info"></div>
+		</div>
+	</footer>
+</body>
+<script src="js/neutralino.js"></script>
+<script src="js/weapons.js"></script>
+<script src="js/armor.js"></script>
+<script src="js/main.js"></script>
+
+<script type="text/javascript">
+	var weaponOutput;
+	var armorOutput;
+
+	window.onload = function () {
+		weaponOutput = document.getElementById("weapon-output");
+		armorOutput = document.getElementById("armor-output");
+		drawTemplate("weapon");
+		drawTemplate("armor");
+		loadTabFromURL();
+	}
+
+	function loadTabFromURL() {
+		var hash = window.location.hash.substr(1);
+		switch (hash) {
+			case "weapon":
+				openTab(document.getElementById("weapon-tab"), "weapon-container");
+			case "armor":
+				openTab(document.getElementById("armor-tab"), "armor-container");
+		}
+	}
+
+	// Dark Mode
+	document.querySelector("#toggleMode").onclick = function () {
+		var body = document.getElementsByTagName("body")[0];
+		toggleButton = document.getElementById("toggleMode");
+		if (body.className == "dark-mode")
+			toggleButton.innerHTML = "&#9790;";
+		else
+			toggleButton.innerHTML = "&#9788;";
+		body.classList.toggle("dark-mode");
+	}
+</script>
+
+</html>
