@@ -26,6 +26,7 @@ async function maximizeApp() {
 }
 
 Neutralino.window.setDraggableRegion("title");
+Neutralino.window.setDraggableRegion("menu-bar");
 
 Neutralino.init();
 
@@ -218,7 +219,7 @@ function validateValue(obj, type) {
 }
 
 function alertInvalidated(obj) {
-	var requirementElement = document.getElementById(obj.target.id + "Requirements");
+	var requirementElement = document.getElementById(obj.id + "Requirements");
 	requirementElement.classList.remove("textWarning");
 	void requirementElement.offsetWidth;
 	requirementElement.classList.add("textWarning");
@@ -226,7 +227,7 @@ function alertInvalidated(obj) {
 
 // Navigation
 function openTab(e, tab) {
-	var i, tabcontent, tablinks;
+	var i, tabcontent, tablinks, tabactive;
 
 	tabcontent = document.getElementsByClassName("tab-content");
 	for (i = 0; i < tabcontent.length; i++)
@@ -236,6 +237,20 @@ function openTab(e, tab) {
 	for (i = 0; i < tablinks.length; i++)
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 
-	document.getElementById(tab).style.display = "block";
+	tabactive = document.getElementById(tab + "-container");
+	tabactive.style.display = "block";
+	tabactive.classList.add("fadein");
+	
 	e.className += " active";
+	document.body.className = tab;
+}
+
+document.querySelector("#toggleMode").onclick = function () {
+	var html = document.getElementsByTagName("html")[0];
+	toggleButton = document.getElementById("toggleMode");
+	if (html.className == "dark-mode")
+		toggleButton.innerHTML = "&#9790;";
+	else
+		toggleButton.innerHTML = "&#9788;";
+	html.classList.toggle("dark-mode");
 }

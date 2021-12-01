@@ -15,29 +15,47 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 
-<body>
+<body class="weapon">
 	<nav>
-		<!--<div id="menu-bar">
-			<button onclick="minimizeApp()">Min</button>
-			<button onclick="maximizeApp()" id="maximize-button">Max</button>
-			<button onclick="closeApp()">Close</button>
-		</div>-->
+		<div id="menu-bar"></div>
+		<div id="menu-buttons-wrap">
+			<span class="menu-button" onclick="minimizeApp()">
+				<svg width="12" height="12" viewBox="0 0 12 12">
+					<rect fill="#ffffff" width="10" height="1" x="1" y="6"></rect>
+				</svg>
+			</span>
+			<span class="menu-button" onclick="maximizeApp()" id="maximize-span">
+				<svg width="12" height="12" viewBox="0 0 12 12">
+					<rect width="9" height="9" x="1.5" y="1.5" fill="none" stroke="#ffffff"></rect>
+				</svg>
+			</span>
+			<span class="menu-button close-button" onclick="closeApp()">
+				<svg width="12" height="12" viewBox="0 0 12 12">
+					<polygon fill="#ffffff" fill-rule="evenodd"
+						points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1">
+					</polygon>
+				</svg>
+			</span>
+		</div>
 		<div class="container">
 			<div id="title">
-				<h1 class="page-title">Equipment Generator</h1>
+				<img class="page-title" src="/resources/imgs/swg-eg-logo.png" alt="Equipment Generator">
+			</div>
+			<div class="toggle-container">
+				<button id="toggleMode">&#9790;</button>
 			</div>
 			<div id="navigation">
 				<button id="weapon-tab" class="nav-tab active"
-					onclick="openTab(event.currentTarget, 'weapon-container')">Weapon</button>
-				<button id="armor-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'armor-container')">Armor</button>
+					onclick="openTab(event.currentTarget, 'weapon')">Weapon</button>
+				<button id="armor-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'armor')">Armor</button>
 				<button disabled>Stim</button>
 			</div>
 			
 		</div>
 	</nav>
-	<div class="main-container container">
-		<div id="weapon-container" class="container-inner tab-content content-selected">
-			<h2>Weapon</h2>
+	<div class="main-container">
+		<div id="weapon-container" class="container tab-content content-selected">
+			<h3>Weapon</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="weapon-typeSelect">Weapon Type:</label>
@@ -48,8 +66,6 @@
 					<select id="weapon-templateSelect" name="weapon-templateSelect">
 					</select>
 				</div>
-			</div>
-			<div class="row second-row">
 				<div class="input-wrapper">
 					<label for="weapon-condition">Condition:</label>
 					<input type="number" id="weapon-condition" name="weapon-condition" class="weapon-data" value="1000" min="1"
@@ -61,9 +77,8 @@
 						min="1" max="999999">
 				</div>
 			</div>
-			<br>
 
-			<h2>Damage</h2>
+			<h3>Damage</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="weapon-damageTypeSelect">Type:</label>
@@ -88,13 +103,13 @@
 						<option value="3">HEAVY</option>
 					</select>
 				</div>
-			</div>
-			<div class="row second-row">
 				<div class="input-wrapper">
 					<label for="weapon-speed">Speed:</label>
 					<input type="number" id="weapon-speed" name="weapon-speed" class="weapon-data" value="1.0" min="0.1" max="16"
 						step="0.1">
 				</div>
+			</div>
+			<div class="row second-row">
 				<div class="input-wrapper">
 					<label for="weapon-minDamage">Minimum Damage:</label>
 					<input type="number" id="weapon-minDamage" name="weapon-minDamage" class="weapon-data" value="100" min="1"
@@ -111,9 +126,8 @@
 						step="0.1">
 				</div>
 			</div>
-			<br>
 
-			<h2>Range Modifiers</h2>
+			<h3>Range Modifiers</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="weapon-pbacc">Point Blank Accuracy:</label>
@@ -139,9 +153,8 @@
 						max="255">
 				</div>
 			</div>
-			<br>
 
-			<h2>Special Attack Cost</h2>
+			<h3>Special Attack Cost</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="weapon-hac">Health Attack Cost:</label>
@@ -157,11 +170,9 @@
 				</div>
 			</div>
 
-			<br>
 			<hr>
-			<br>
 
-			<h1>Output:</h1>
+			<h2>Output:</h2>
 			<div class="row">
 				<div class="input-wrapper">
 					<textarea id="weapon-output" rows="3"></textarea>
@@ -169,8 +180,8 @@
 				<button id="weapon-copyText">Copy</button>
 			</div>
 		</div>
-		<div id="armor-container" class="container-inner tab-content">
-			<h2>Armor</h2>
+		<div id="armor-container" class="container tab-content">
+			<h3>Armor</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="armor-typeSelect">Armor Set:</label>
@@ -197,8 +208,6 @@
 					<input type="number" id="armor-maxCondition" name="armor-maxCondition" class="armor-data" value="1000" min="1"
 						max="999999">
 				</div>
-			</div>
-			<div class="row second-row">
 				<div class="input-wrapper">
 					<label for="armor-ratingSelect">Armor Rating:</label>
 					<select value="1" id="armor-ratingSelect" name="armor-ratingSelect">
@@ -214,9 +223,8 @@
 						step="1">
 				</div>
 			</div>
-			<br>
 
-			<h2>Resists</h2>
+			<h3>Resists</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="armor-kinetic">Kinetic:</label>
@@ -266,9 +274,8 @@
 						max="100" step="0.1">
 				</div>
 			</div>
-			<br>
 
-			<h2>Encumbrance</h2>
+			<h3>Encumbrance</h3>
 			<div class="row">
 				<div class="input-wrapper">
 					<label for="armor-healthenc">Health:</label>
@@ -287,12 +294,9 @@
 				</div>
 			</div>
 
-
-			<br>
 			<hr>
-			<br>
 
-			<h1>Output:</h1>
+			<h2>Output:</h2>
 			<div class="row">
 				<div class="input-wrapper">
 					<textarea id="armor-output" rows="3"></textarea>
@@ -333,17 +337,6 @@
 			case "armor":
 				openTab(document.getElementById("armor-tab"), "armor-container");
 		}
-	}
-
-	// Dark Mode
-	document.querySelector("#toggleMode").onclick = function () {
-		var body = document.getElementsByTagName("body")[0];
-		toggleButton = document.getElementById("toggleMode");
-		if (body.className == "dark-mode")
-			toggleButton.innerHTML = "&#9790;";
-		else
-			toggleButton.innerHTML = "&#9788;";
-		body.classList.toggle("dark-mode");
 	}
 </script>
 
