@@ -136,6 +136,9 @@ function populateTemplateSelect(json_arr, type, typeValue) {
 	for (var key in json_arr[typeValue])
 		selectOutput += '<option value="' + json_arr[typeValue][key].template + '">' + json_arr[typeValue][key].name + '</option>';
 	document.getElementById(type + "-templateSelect").innerHTML = selectOutput;
+	// Set template for drawning output when switching type
+	var obj = getObjectOfType(type);
+	obj.template = json_arr[typeValue][0].template;
 }
 populateTemplateSelect(weapons_json, "weapon", "Pistols");
 populateTemplateSelect(armor_json, "armor", "Composite");
@@ -171,6 +174,18 @@ function concatOutputValue(type) {
 				return armorObj.armorRating + " " + drawString + drawArmorSet();
 		default:
 			console.log("Unknown type in drawTemplate concatOutputValue");
+			return "";
+	}
+}
+
+function getObjectOfType(type) {
+	switch (type) {
+		case "weapon":
+			return weaponObj;
+		case "armor":
+			return armorObj;
+		default:
+			console.log("Unknown type in getObjectOfType");
 			return "";
 	}
 }
