@@ -35,16 +35,29 @@ Neutralino.events.on("ready", () => {});
 
 const weapons_json = getWeapons();
 const armor_json = getArmor();
+const skillmods_json = getSkillmods();
 
 const weaponObj = {
 	damageType: 1,
 	armorPiercing: 0,
-	template: "object/weapon/ranged/pistol/pistol_cdef.iff"
+	template: "object/weapon/ranged/pistol/pistol_cdef.iff",
+	skillMods: {
+		0: "none",
+		1: "none",
+		2: "none",
+		3: "none",
+	}
 }
 
 const armorObj = {
 	armorRating: 0,
-	template: "object/tangible/wearables/armor/composite/armor_composite_bicep_l.iff"
+	template: "object/tangible/wearables/armor/composite/armor_composite_bicep_l.iff",
+	skillMods: {
+		0: "none",
+		1: "none",
+		2: "none",
+		3: "none",
+	}
 }
 
 function initializeOutput(type) {
@@ -67,20 +80,33 @@ const weaponTypeSelect = document.querySelector('#weapon-typeSelect');
 const weaponTemplateSelect = document.querySelector('#weapon-templateSelect');
 const weaponDamageTypeSelect = document.querySelector('#weapon-damageTypeSelect');
 const weaponArmorPiercingSelect = document.querySelector('#weapon-armorPiercingSelect');
+const weaponForceCostInput = document.querySelector('#weapon-forceCost');
 
 const armorData = document.querySelectorAll(".armor-data");
 const armorTypeSelect = document.querySelector('#armor-typeSelect');
 const armorTemplateSelect = document.querySelector('#armor-templateSelect');
 const armorSetCheckbox = document.querySelector('#armor-setCheckbox');
 const armorRatingSelect = document.querySelector('#armor-ratingSelect');
+const armorSocketsInput = document.querySelector('#armor-sockets');
 
 function initializeDataListeners(type) {
 	dataObj = getOutputData(type);
 	dataObj.forEach(function (data) {
-		data.addEventListener('input', function () {
-			validateValue(data, type);
-		});
-		addRequirements(data);
+		switch (data.localName) {
+			case "input":
+				data.addEventListener('input', function () {
+					validateValue(data, type);
+				});
+				addRequirements(data);
+				break;
+			case "select":
+				data.addEventListener('input', function () {
+					validateSkillMods(data, type);
+				});
+				break;
+			default:
+				break;
+		}
 	});
 }
 initializeDataListeners("weapon");
@@ -116,6 +142,15 @@ armorSetCheckbox.addEventListener('change', (event) => {
 function addTemplateSelectListener(select, json_arr, type) {
 	select.addEventListener('input', (event) => {
 		populateTemplateSelect(json_arr, type, select.value);
+		switch (type) {
+			case "weapon":
+				enableInputOnType(weaponForceCostInput, "Lightsaber", select.value);
+				break;
+			case "armor":
+				disableCheckboxOnType(armorSetCheckbox, "PSG", select.value);
+				disableInputOnType(armorSocketsInput, "PSG", select.value);
+				break;
+		}
 		drawTemplate(type);
 	});
 }
@@ -143,12 +178,50 @@ function populateTemplateSelect(json_arr, type, typeValue) {
 populateTemplateSelect(weapons_json, "weapon", "Pistols");
 populateTemplateSelect(armor_json, "armor", "Composite");
 
+function populateSkillMods(json_arr, type, entry, typeValue) {
+	var selectOutput = "";
+	for (var key in json_arr[typeValue])
+		selectOutput += '<option value="' + json_arr[typeValue][key].template + '">' + json_arr[typeValue][key].name + '</option>';
+	document.getElementById(type + "-skillModType-" + entry).innerHTML = selectOutput;
+}
+populateSkillMods(skillmods_json, "weapon", "01", "Skill Mods");
+populateSkillMods(skillmods_json, "weapon", "02", "Skill Mods");
+populateSkillMods(skillmods_json, "weapon", "03", "Skill Mods");
+populateSkillMods(skillmods_json, "weapon", "04", "Skill Mods");
+populateSkillMods(skillmods_json, "armor", "01", "Skill Mods");
+populateSkillMods(skillmods_json, "armor", "02", "Skill Mods");
+populateSkillMods(skillmods_json, "armor", "03", "Skill Mods");
+populateSkillMods(skillmods_json, "armor", "04", "Skill Mods");
+
 function drawArmorSet() {
 	var armorSetString = "";
 	var armorSet = armorTypeSelect.value;
 	for (var key in armor_json[armorSet])
 		armorSetString += armor_json[armorSet][key].template + " "
 	return armorSetString;
+}
+
+function disableCheckboxOnType(checkbox, template, val) {
+	if (val != template) {
+		checkbox.removeAttribute("disabled");
+	} else {
+		checkbox.checked = false;
+		checkbox.setAttribute("disabled", "true");
+	}
+}
+
+function enableInputOnType(input, template, val) {
+	if (val != template)
+		input.setAttribute("disabled", "true");
+	else
+		input.removeAttribute("disabled");
+}
+
+function disableInputOnType(input, template, val) {
+	if (val != template)
+		input.removeAttribute("disabled");
+	else
+		input.setAttribute("disabled", "true");
 }
 
 function drawTemplate(type) {
@@ -160,6 +233,7 @@ function drawTemplate(type) {
 function concatOutputValue(type) {
 	var inputData = getOutputData(type);
 	var drawString = "";
+
 	inputData.forEach(function (data) {
 		drawString += data.value + " ";
 	});
@@ -231,6 +305,31 @@ function validateValue(obj, type) {
 		alertInvalidated(obj)
 	}
 	drawTemplate(type);
+}
+
+function validateSkillMods(data, type) {
+	console.log(data);
+	var val = data.value;
+	var obj = getObjectOfType(type);
+	if (val != "none") {
+		var foundDuplicate = false;
+		for (var key in obj["skillMods"]) {
+			console.log(obj["skillMods"][key]);
+			console.log(val);
+			if (obj["skillMods"][key] == val) {
+				foundDuplicate = true;
+				break;
+			}
+		}
+	}
+
+	if (foundDuplicate) {
+		data.value = obj["skillMods"][data.getAttribute("skillMod")];
+		// Add warning
+	} else {
+		obj["skillMods"][data.getAttribute("skillMod")] = val;
+		drawTemplate(type);
+	}
 }
 
 function alertInvalidated(obj) {

@@ -367,6 +367,21 @@ function getWeapons() {
                     name: "A Blacksun Razor Knuckler",
                     template: "object/weapon/melee/special/blacksun_razor.iff"
                 }
+            ],
+        "Lightsaber":
+            [
+                {
+                    name: "One-Handed Lightsaber Gen 4",
+                    template: "object/weapon/melee/sword/crafted_saber/sword_lightsaber_one_handed_gen4.iff"
+                },
+                {
+                    name: "Two-Handed Lightsaber Gen 4",
+                    template: "object/weapon/melee/2h_sword/crafted_saber/sword_lightsaber_two_handed_gen4.iff"
+                },
+                {
+                    name: "Polearm Lightsaber Gen 4",
+                    template: "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen4.iff"
+                }
             ]
     };
 }

@@ -174,6 +174,25 @@ function getArmor() {
                     name: "Kashyyykian Hunting Leggings",
                     template: "object/tangible/wearables/armor/kashyyykian_hunting/armor_kashyyykian_hunting_leggings.iff"
                 },
-            ]
+            ],
+        "PSG":
+        [
+            {
+                name: "Imperial Personal Shield Generator",
+                template: "object/tangible/component/armor/shield_generator_personal_imperial_test.iff",
+            },
+            {
+                name: "Personal Shield Generator Mk.3",
+                template: "object/tangible/component/armor/shield_generator_personal_c.iff",
+            },
+            {
+                name: "Personal Shield Generator Mk.2",
+                template: "object/tangible/component/armor/shield_generator_personal_b.iff",
+            },
+            {
+                name: "Personal Shield Generator",
+                template: "object/tangible/component/armor/shield_generator_personal.iff",
+            },
+        ]
     }
 }
