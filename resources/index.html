@@ -48,6 +48,7 @@
 				<button id="weapon-tab" class="nav-tab active"
 					onclick="openTab(event.currentTarget, 'weapon')">Weapon</button>
 				<button id="armor-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'armor')">Armor</button>
+				<button id="wearable-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'wearable')">Wearable</button>
 				<button disabled>Stim</button>
 			</div>
 			
@@ -390,6 +391,88 @@
 				<button id="armor-copyText">Copy</button>
 			</div>
 		</div>
+		<div id="wearable-container" class="container tab-content">
+			<h3>Wearable</h3>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="wearable-typeSelect">Wearable Type:</label>
+					<select id="wearable-typeSelect" name="wearable-typeSelect"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-templateSelect">Wearable Piece:</label>
+					<select id="wearable-templateSelect" name="wearable-templateSelect"></select>
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="wearable-condition">Condition:</label>
+					<input type="number" id="wearable-condition" name="wearable-condition" class="wearable-data" value="1000" min="1"
+						max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="maxCondition">Maximum Condition:</label>
+					<input type="number" id="wearable-maxCondition" name="wearable-maxCondition" class="wearable-data" value="1000"
+						min="1" max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-sockets">Sockets:</label>
+					<input type="number" id="wearable-sockets" name="wearable-sockets" class="wearable-data" value="4" min="0" max="4"
+						step="1">
+				</div>
+			</div>
+		
+			<h3>Skill Mods</h3>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="wearable-skillModType-01">Skill Mod Type #1:</label>
+					<select id="wearable-skillModType-01" name="wearable-skillModType-01" class="wearable-data" skillMod="0"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModValue-01">Skill Mod Value #1:</label>
+					<input type="number" id="wearable-skillModValue-01" name="wearable-skillModValue-01" class="wearable-data" value="0"
+						min="0" max="25" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModType-02">Skill Mod Type #2:</label>
+					<select id="wearable-skillModType-02" name="wearable-skillModType-02" class="wearable-data" skillMod="1"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModValue-02">Skill Mod Value #2:</label>
+					<input type="number" id="wearable-skillModValue-02" name="wearable-skillModValue-02" class="wearable-data" value="0"
+						min="0" max="25" step="1">
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="wearable-skillModType-03">Skill Mod Type #3:</label>
+					<select id="wearable-skillModType-03" name="wearable-skillModType-03" class="wearable-data" skillMod="2"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModValue-03">Skill Mod Value #3:</label>
+					<input type="number" id="wearable-skillModValue-03" name="wearable-skillModValue-03" class="wearable-data" value="0"
+						min="0" max="25" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModType-04">Skill Mod Type #4:</label>
+					<select id="wearable-skillModType-04" name="wearable-skillModType-04" class="wearable-data" skillMod="3"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="wearable-skillModValue-04">Skill Mod Value #4:</label>
+					<input type="number" id="wearable-skillModValue-04" name="wearable-skillModValue-04" class="wearable-data" value="0"
+						min="0" max="25" step="1">
+				</div>
+			</div>
+		
+			<hr>
+		
+			<h2>Output:</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<textarea id="wearable-output" rows="3"></textarea>
+				</div>
+				<button id="wearable-copyText">Copy</button>
+			</div>
+		</div>
 	</div>
 	<footer>
 		<div class="container">
@@ -399,9 +482,10 @@
 	</footer>
 </body>
 <script src="js/neutralino.js"></script>
-<script src="js/armor.js"></script>
 <script src="js/skillmods.js"></script>
+<script src="js/armor.js"></script>
 <script src="js/weapons.js"></script>
+<script src="js/wearables.js"></script>
 <script src="js/main.js"></script>
 
 <script type="text/javascript">
@@ -411,8 +495,10 @@
 	window.onload = function () {
 		weaponOutput = document.getElementById("weapon-output");
 		armorOutput = document.getElementById("armor-output");
+		wearableOutput = document.getElementById("wearable-output");
 		drawTemplate("weapon");
 		drawTemplate("armor");
+		drawTemplate("wearable");
 		loadTabFromURL();
 	}
 
@@ -423,6 +509,8 @@
 				openTab(document.getElementById("weapon-tab"), "weapon-container");
 			case "armor":
 				openTab(document.getElementById("armor-tab"), "armor-container");
+			case "wearable":
+				openTab(document.getElementById("wearable-tab"), "wearable-container");
 		}
 	}
 </script>

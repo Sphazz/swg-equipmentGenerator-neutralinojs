@@ -35,6 +35,7 @@ Neutralino.events.on("ready", () => {});
 
 const weapons_json = getWeapons();
 const armor_json = getArmor();
+const wearable_json = getWearable();
 const skillmods_json = getSkillmods();
 
 const weaponObj = {
@@ -60,6 +61,16 @@ const armorObj = {
 	}
 }
 
+const wearableObj = {
+	template: "object/tangible/wearables/shirt/shirt_s03.iff",
+	skillMods: {
+		0: "none",
+		1: "none",
+		2: "none",
+		3: "none",
+	}
+}
+
 function initializeOutput(type) {
 	document.querySelector("#" + type + "-copyText").onclick = function () {
 		var output = getOutput(type);
@@ -74,6 +85,7 @@ function initializeOutput(type) {
 }
 initializeOutput("weapon");
 initializeOutput("armor");
+initializeOutput("wearable");
 
 const weaponData = document.querySelectorAll(".weapon-data");
 const weaponTypeSelect = document.querySelector('#weapon-typeSelect');
@@ -88,6 +100,10 @@ const armorTemplateSelect = document.querySelector('#armor-templateSelect');
 const armorSetCheckbox = document.querySelector('#armor-setCheckbox');
 const armorRatingSelect = document.querySelector('#armor-ratingSelect');
 const armorSocketsInput = document.querySelector('#armor-sockets');
+
+const wearableData = document.querySelectorAll(".wearable-data");
+const wearableTypeSelect = document.querySelector('#wearable-typeSelect');
+const wearableTemplateSelect = document.querySelector('#wearable-templateSelect');
 
 function initializeDataListeners(type) {
 	dataObj = getOutputData(type);
@@ -112,6 +128,7 @@ function initializeDataListeners(type) {
 }
 initializeDataListeners("weapon");
 initializeDataListeners("armor");
+initializeDataListeners("wearable");
 
 function addRequirements(data) {
 	var reqText = '<span id="' + data.id + 'Requirements" class="requirements">Minimum: <strong>';
@@ -136,6 +153,7 @@ addSelectListener(weaponDamageTypeSelect, "weapon", weaponObj, "damageType");
 addSelectListener(weaponArmorPiercingSelect, "weapon", weaponObj, "armorPiercing");
 addSelectListener(armorTemplateSelect, "armor", armorObj, "template");
 addSelectListener(armorRatingSelect, "armor", armorObj, "armorRating");
+addSelectListener(wearableTemplateSelect, "wearable", wearableObj, "template");
 
 armorSetCheckbox.addEventListener('change', (event) => {
 	if (!armorSetCheckbox.checked)
@@ -162,15 +180,21 @@ function addTemplateSelectListener(select, json_arr, type) {
 }
 addTemplateSelectListener(weaponTypeSelect, weapons_json, "weapon");
 addTemplateSelectListener(armorTypeSelect, armor_json, "armor");
+addTemplateSelectListener(wearableTypeSelect, wearable_json, "wearable");
 
-function populateTypeSelect(json_arr, arr_type) {
+function populateTypeSelect(json_arr, arr_type, selected) {
 	var selectOutput = "";
-	for (var key in json_arr)
-		selectOutput += '<option value="' + key + '"">' + key + '</option>';
+	for (var key in json_arr) {
+		selectOutput += '<option value="' + key + '"';
+		if (key == selected)
+			selectOutput += ' selected';
+		selectOutput += '>' + key + '</option>';
+	}
 	document.getElementById(arr_type + "-typeSelect").innerHTML = selectOutput;
 }
-populateTypeSelect(weapons_json, "weapon");
-populateTypeSelect(armor_json, "armor");
+populateTypeSelect(weapons_json, "weapon", "Pistols");
+populateTypeSelect(armor_json, "armor", "Composite");
+populateTypeSelect(wearable_json, "wearable", "Shirt");
 
 function populateTemplateSelect(json_arr, type, typeValue) {
 	var selectOutput = "";
@@ -183,6 +207,7 @@ function populateTemplateSelect(json_arr, type, typeValue) {
 }
 populateTemplateSelect(weapons_json, "weapon", "Pistols");
 populateTemplateSelect(armor_json, "armor", "Composite");
+populateTemplateSelect(wearable_json, "wearable", "Shirt");
 
 function populateSkillMods(json_arr, type, entry, typeValue) {
 	var selectOutput = "";
@@ -198,6 +223,10 @@ populateSkillMods(skillmods_json, "armor", "01", "Skill Mods");
 populateSkillMods(skillmods_json, "armor", "02", "Skill Mods");
 populateSkillMods(skillmods_json, "armor", "03", "Skill Mods");
 populateSkillMods(skillmods_json, "armor", "04", "Skill Mods");
+populateSkillMods(skillmods_json, "wearable", "01", "Skill Mods");
+populateSkillMods(skillmods_json, "wearable", "02", "Skill Mods");
+populateSkillMods(skillmods_json, "wearable", "03", "Skill Mods");
+populateSkillMods(skillmods_json, "wearable", "04", "Skill Mods");
 
 function drawArmorSet() {
 	var armorSetString = "";
@@ -252,6 +281,8 @@ function concatOutputValue(type) {
 				return armorObj.armorRating + " " + drawString + armorObj.template;
 			else
 				return armorObj.armorRating + " " + drawString + drawArmorSet();
+		case "wearable":
+			return wearableObj.template + " " + drawString;
 		default:
 			console.log("Unknown type in drawTemplate concatOutputValue");
 			return "";
@@ -264,6 +295,8 @@ function getObjectOfType(type) {
 			return weaponObj;
 		case "armor":
 			return armorObj;
+		case "wearable":
+			return wearableObj;
 		default:
 			console.log("Unknown type in getObjectOfType");
 			return "";
@@ -276,6 +309,8 @@ function getOutputData(type) {
 			return weaponData;
 		case "armor":
 			return armorData;
+		case "wearable":
+			return wearableData;
 		default:
 			console.log("Unknown type in drawTemplate getOutputData");
 			return "";
@@ -288,6 +323,8 @@ function getOutput(type) {
 			return weaponOutput;
 		case "armor":
 			return armorOutput;
+		case "wearable":
+			return wearableOutput;
 		default:
 			console.log("Unknown type in drawTemplate getOutput");
 			return "";
