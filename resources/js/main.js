@@ -103,6 +103,7 @@ function initializeDataListeners(type) {
 				data.addEventListener('input', function () {
 					validateSkillMods(data, type);
 				});
+				addSkillModError(data);
 				break;
 			default:
 				break;
@@ -116,6 +117,11 @@ function addRequirements(data) {
 	var reqText = '<span id="' + data.id + 'Requirements" class="requirements">Minimum: <strong>';
 	reqText += data.getAttribute("min") + '</strong> - Maximum: <strong>';
 	reqText += data.getAttribute("max") + '</strong></span>';
+	data.insertAdjacentHTML("afterend", reqText);
+}
+
+function addSkillModError(data) {
+	var reqText = '<span id="' + data.id + 'SkillMod-Error" class="skillmod-error">Skill Mod must be unique</span>';
 	data.insertAdjacentHTML("afterend", reqText);
 }
 
@@ -302,20 +308,17 @@ function validateValue(obj, type) {
 	} else if (Math.ceil(val) > max) {
 		obj.value = max;
 		obj.blur();
-		alertInvalidated(obj)
+		alertInvalidated(obj);
 	}
 	drawTemplate(type);
 }
 
 function validateSkillMods(data, type) {
-	console.log(data);
 	var val = data.value;
 	var obj = getObjectOfType(type);
 	if (val != "none") {
 		var foundDuplicate = false;
 		for (var key in obj["skillMods"]) {
-			console.log(obj["skillMods"][key]);
-			console.log(val);
 			if (obj["skillMods"][key] == val) {
 				foundDuplicate = true;
 				break;
@@ -325,7 +328,8 @@ function validateSkillMods(data, type) {
 
 	if (foundDuplicate) {
 		data.value = obj["skillMods"][data.getAttribute("skillMod")];
-		// Add warning
+		data.blur();
+		alertDuplicateSkillMod(data);
 	} else {
 		obj["skillMods"][data.getAttribute("skillMod")] = val;
 		drawTemplate(type);
@@ -337,6 +341,13 @@ function alertInvalidated(obj) {
 	requirementElement.classList.remove("textWarning");
 	void requirementElement.offsetWidth;
 	requirementElement.classList.add("textWarning");
+}
+
+function alertDuplicateSkillMod(obj) {
+	var skillModErrorElement = document.getElementById(obj.id + "SkillMod-Error");
+	skillModErrorElement.classList.remove("textWarning");
+	void skillModErrorElement.offsetWidth;
+	skillModErrorElement.classList.add("textWarning");
 }
 
 // Navigation

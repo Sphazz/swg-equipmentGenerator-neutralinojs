@@ -87,7 +87,7 @@ label {
 	text-transform: uppercase;
 	font-size: 10px;
 }
-.requirements {
+.requirements, .skillmod-error {
 	opacity: 0;
 	display: block;
 	position: relative;
@@ -103,6 +103,9 @@ label {
 }
 .textWarning {
 	animation: textWarning 3s;
+}
+.skillmod-error {
+
 }
 .input-wrapper {
 	flex-grow: 1;
