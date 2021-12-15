@@ -243,6 +243,7 @@ nav .container div {
 	padding: 8px;
 	margin: 0 3px;
 	border: none;
+	border-bottom: 1px solid transparent;
 	border-radius: 0;
 }
 #navigation button.active {
