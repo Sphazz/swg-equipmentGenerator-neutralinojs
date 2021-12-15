@@ -37,10 +37,6 @@ function getArmor() {
                 {
                     name: "Bone Armor Leggings",
                     template: "object/tangible/wearables/armor/bone/armor_bone_s01_leggings.iff"
-                },
-                {
-                    name: "Singing Mountain Clan Right Bicep Armor",
-                    template: "object/tangible/wearables/armor/bone/armor_smc_s01_bicep_l.iff"
                 }
             ],
         "Bounty Hunter":
