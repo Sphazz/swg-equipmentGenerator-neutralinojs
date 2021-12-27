@@ -26,16 +26,20 @@ async function maximizeApp() {
 }
 
 Neutralino.window.setDraggableRegion("title");
-Neutralino.window.setDraggableRegion("menu-bar");
+//Neutralino.window.setDraggableRegion("menu-bar");
 
 Neutralino.init();
 
 Neutralino.events.on("windowClose", myApp.onWindowClose);
 Neutralino.events.on("ready", () => {});
 
+var clientHeight = document.getElementById('weapon-tab').clientHeight;
+var clientWidth = document.getElementById('weapon-tab').clientWidth;
+
 const weapons_json = getWeapons();
 const armor_json = getArmor();
 const wearable_json = getWearable();
+const medicine_json = getMedicine();
 const skillmods_json = getSkillmods();
 
 const weaponObj = {
@@ -71,6 +75,10 @@ const wearableObj = {
 	}
 }
 
+const medicineObj = {
+	template: "object/tangible/medicine/crafted/crafted_stimpack_sm_s1_a.iff",
+}
+
 function initializeOutput(type) {
 	document.querySelector("#" + type + "-copyText").onclick = function () {
 		var output = getOutput(type);
@@ -86,6 +94,7 @@ function initializeOutput(type) {
 initializeOutput("weapon");
 initializeOutput("armor");
 initializeOutput("wearable");
+initializeOutput("medicine");
 
 const weaponData = document.querySelectorAll(".weapon-data");
 const weaponTypeSelect = document.querySelector('#weapon-typeSelect');
@@ -104,6 +113,10 @@ const armorSocketsInput = document.querySelector('#armor-sockets');
 const wearableData = document.querySelectorAll(".wearable-data");
 const wearableTypeSelect = document.querySelector('#wearable-typeSelect');
 const wearableTemplateSelect = document.querySelector('#wearable-templateSelect');
+
+const medicineData = document.querySelectorAll(".medicine-data");
+const medicineTypeSelect = document.querySelector('#medicine-typeSelect');
+const medicineTemplateSelect = document.querySelector('#medicine-templateSelect');
 
 function initializeDataListeners(type) {
 	dataObj = getOutputData(type);
@@ -129,6 +142,7 @@ function initializeDataListeners(type) {
 initializeDataListeners("weapon");
 initializeDataListeners("armor");
 initializeDataListeners("wearable");
+initializeDataListeners("medicine");
 
 function addRequirements(data) {
 	var reqText = '<span id="' + data.id + 'Requirements" class="requirements">Minimum: <strong>';
@@ -154,6 +168,7 @@ addSelectListener(weaponArmorPiercingSelect, "weapon", weaponObj, "armorPiercing
 addSelectListener(armorTemplateSelect, "armor", armorObj, "template");
 addSelectListener(armorRatingSelect, "armor", armorObj, "armorRating");
 addSelectListener(wearableTemplateSelect, "wearable", wearableObj, "template");
+addSelectListener(medicineTemplateSelect, "medicine", medicineObj, "template");
 
 armorSetCheckbox.addEventListener('change', (event) => {
 	if (!armorSetCheckbox.checked)
@@ -162,6 +177,61 @@ armorSetCheckbox.addEventListener('change', (event) => {
 		armorTemplateSelect.setAttribute("disabled", "true");
 	drawTemplate("armor");
 });
+
+const medicineInputMap = {
+	"Stim Pack": {
+		enable : [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Ranged Stim Pack": {
+		enable: ["medicine-range"],
+		disable: ["medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Area Stim Pack": {
+		enable: ["medicine-range", "medicine-area"],
+		disable: ["medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Enhancement Medpack": {
+		enable: ["medicine-duration"],
+		disable: ["medicine-range", "medicine-area", "medicine-potency", "medicine-absorption"]
+	},
+	"Enhancement State Medpack": {
+		enable: ["medicine-duration", "medicine-absorption"],
+		disable: ["medicine-range", "medicine-area", "medicine-potency"]
+	},
+	"Cure Pack": {
+		enable: [],
+		disable: ["medicine-area", "medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Cure Pack (Area)": {
+		enable: ["medicine-area"],
+		disable: ["medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Disease Delivery Unit": {
+		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-area", "medicine-absorption"]
+	},
+	"Disease Delivery Unit (Area)": {
+		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-absorption"]
+	},
+	"Poison Delivery Unit": {
+		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-area", "medicine-absorption"]
+	},
+	"Poison Delivery Unit (Area)": {
+		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-absorption"]
+	},
+	"Resuscitation Kit": {
+		enable: [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Wound Pack": {
+		enable: [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+}
 
 function addTemplateSelectListener(select, json_arr, type) {
 	select.addEventListener('input', (event) => {
@@ -174,6 +244,9 @@ function addTemplateSelectListener(select, json_arr, type) {
 				disableCheckboxOnType(armorSetCheckbox, "PSG", select.value);
 				disableInputOnType(armorSocketsInput, "PSG", select.value);
 				break;
+			case "medicine":
+				toggleMedicineInputs(select.value);
+				break;
 		}
 		drawTemplate(type);
 	});
@@ -181,6 +254,15 @@ function addTemplateSelectListener(select, json_arr, type) {
 addTemplateSelectListener(weaponTypeSelect, weapons_json, "weapon");
 addTemplateSelectListener(armorTypeSelect, armor_json, "armor");
 addTemplateSelectListener(wearableTypeSelect, wearable_json, "wearable");
+addTemplateSelectListener(medicineTypeSelect, medicine_json, "medicine");
+
+function toggleMedicineInputs(val) {
+	for (var k in medicineInputMap[val].disable)
+		document.getElementById(medicineInputMap[val].disable[k]).setAttribute("disabled", "true");
+	for (var k in medicineInputMap[val].enable)
+		document.getElementById(medicineInputMap[val].enable[k]).removeAttribute("disabled");
+}
+toggleMedicineInputs("Stim Pack");
 
 function populateTypeSelect(json_arr, arr_type, selected) {
 	var selectOutput = "";
@@ -195,6 +277,7 @@ function populateTypeSelect(json_arr, arr_type, selected) {
 populateTypeSelect(weapons_json, "weapon", "Pistols");
 populateTypeSelect(armor_json, "armor", "Composite");
 populateTypeSelect(wearable_json, "wearable", "Shirt");
+populateTypeSelect(medicine_json, "medicine", "Stim Pack");
 
 function populateTemplateSelect(json_arr, type, typeValue) {
 	var selectOutput = "";
@@ -208,6 +291,7 @@ function populateTemplateSelect(json_arr, type, typeValue) {
 populateTemplateSelect(weapons_json, "weapon", "Pistols");
 populateTemplateSelect(armor_json, "armor", "Composite");
 populateTemplateSelect(wearable_json, "wearable", "Shirt");
+populateTemplateSelect(medicine_json, "medicine", "Stim Pack");
 
 function populateSkillMods(json_arr, type, entry, typeValue) {
 	var selectOutput = "";
@@ -283,6 +367,8 @@ function concatOutputValue(type) {
 				return armorObj.armorRating + " " + drawString + drawArmorSet();
 		case "wearable":
 			return wearableObj.template + " " + drawString;
+		case "medicine":
+			return medicineObj.template + " " + drawString;
 		default:
 			console.log("Unknown type in drawTemplate concatOutputValue");
 			return "";
@@ -297,6 +383,8 @@ function getObjectOfType(type) {
 			return armorObj;
 		case "wearable":
 			return wearableObj;
+		case "medicine":
+			return medicineObj;
 		default:
 			console.log("Unknown type in getObjectOfType");
 			return "";
@@ -311,6 +399,8 @@ function getOutputData(type) {
 			return armorData;
 		case "wearable":
 			return wearableData;
+		case "medicine":
+			return medicineData;
 		default:
 			console.log("Unknown type in drawTemplate getOutputData");
 			return "";
@@ -325,6 +415,8 @@ function getOutput(type) {
 			return armorOutput;
 		case "wearable":
 			return wearableOutput;
+		case "medicine":
+			return medicineOutput;
 		default:
 			console.log("Unknown type in drawTemplate getOutput");
 			return "";
@@ -405,6 +497,14 @@ function openTab(e, tab) {
 	
 	e.className += " active";
 	document.body.className = tab;
+	clientHeight = document.getElementById(tab + '-container').clientHeight;
+	clientHeight += 126;
+	Neutralino.window.setSize( 
+		{
+			height: clientHeight,
+			width: 940,
+		}
+	);
 }
 
 document.querySelector("#toggleMode").onclick = function () {

@@ -22,6 +22,9 @@ body.armor {
 body.wearable {
 	background: rgb(33, 37, 34);
 }
+body.medicine {
+	background: rgb(33, 35, 37);
+}
 html.dark-mode {
 	filter: invert(1);
 }
@@ -259,6 +262,13 @@ nav .container div {
 	cursor: default;
 	pointer-events: none;
 	opacity: 0.6;
+}
+#title {
+	flex-basis: 30em;
+}
+#navigation {
+	margin-right: 1em;
+	flex-basis: 30em;
 }
 .tab-content {
 	display: none;

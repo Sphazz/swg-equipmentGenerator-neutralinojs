@@ -17,7 +17,7 @@
 
 <body class="weapon">
 	<nav>
-		<div id="menu-bar"></div>
+		<!--<div id="menu-bar"></div>
 		<div id="menu-buttons-wrap">
 			<span class="menu-button" onclick="minimizeApp()">
 				<svg width="12" height="12" viewBox="0 0 12 12">
@@ -36,22 +36,21 @@
 					</polygon>
 				</svg>
 			</span>
-		</div>
+		</div>-->
 		<div class="container">
 			<div id="title">
 				<img class="page-title" src="/resources/imgs/swg-eg-logo.png" alt="Equipment Generator">
-			</div>
-			<div class="toggle-container">
-				<button id="toggleMode">&#9790;</button>
 			</div>
 			<div id="navigation">
 				<button id="weapon-tab" class="nav-tab active"
 					onclick="openTab(event.currentTarget, 'weapon')">Weapon</button>
 				<button id="armor-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'armor')">Armor</button>
 				<button id="wearable-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'wearable')">Wearable</button>
-				<button disabled>Stim</button>
+				<button id="medicine-tab" class="nav-tab" onclick="openTab(event.currentTarget, 'medicine')">Medicine</button>
 			</div>
-			
+			<div class="toggle-container">
+				<button id="toggleMode">&#9790;</button>
+			</div>
 		</div>
 	</nav>
 	<div class="main-container">
@@ -473,6 +472,77 @@
 				<button id="wearable-copyText">Copy</button>
 			</div>
 		</div>
+		<div id="medicine-container" class="container tab-content">
+			<h3>Medicine</h3>
+			<div class="row">
+				<div class="input-wrapper">
+					<label for="medicine-typeSelect">Medicine Type:</label>
+					<select id="medicine-typeSelect" name="medicine-typeSelect"></select>
+				</div>
+				<div class="input-wrapper">
+					<label for="medicine-templateSelect">Medicine Pack:</label>
+					<select id="medicine-templateSelect" name="medicine-templateSelect"></select>
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="medicine-useCount">Use Count:</label>
+					<input type="number" id="medicine-useCount" name="medicine-useCount" class="medicine-data" value="20"
+						min="1" max="999">
+				</div>
+				<div class="input-wrapper">
+					<label for="effectiveness">Effectiveness:</label>
+					<input type="number" id="medicine-effectiveness" name="medicine-effectiveness" class="medicine-data"
+						value="500" min="1" max="999999">
+				</div>
+				<div class="input-wrapper">
+					<label for="medicine-medUse">Medical Use:</label>
+					<input type="number" id="medicine-medUse" name="medicine-medUse" class="medicine-data" value="5" min="1"
+						max="125" step="1">
+				</div>
+			</div>
+		
+			<h3>Distance</h3>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="medicine-range">Range:</label>
+					<input type="number" id="medicine-range" name="medicine-range" class="medicine-data" value="5" min="1" max="256"
+						step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="medicine-area">Area:</label>
+					<input type="number" id="medicine-area" name="medicine-area" class="medicine-data" value="0" min="1" max="256"
+						step="1">
+				</div>
+			</div>
+			<div class="row second-row">
+				<div class="input-wrapper">
+					<label for="medicine-duration">Duration:</label>
+					<input type="number" id="medicine-duration" name="medicine-duration" class="medicine-data" value="1800" min="1"
+						max="999999" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="medicine-potency">Potency:</label>
+					<input type="number" id="medicine-potency" name="medicine-potency" class="medicine-data" value="350" min="1"
+						max="999999" step="1">
+				</div>
+				<div class="input-wrapper">
+					<label for="medicine-absorption">Absorption:</label>
+					<input type="number" id="medicine-absorption" name="medicine-absorption" class="medicine-data" value="350" min="1"
+						max="999999" step="1">
+				</div>
+			</div>
+		
+			<hr>
+		
+			<h2>Output:</h2>
+			<div class="row">
+				<div class="input-wrapper">
+					<textarea id="medicine-output" rows="3"></textarea>
+				</div>
+				<button id="medicine-copyText">Copy</button>
+			</div>
+		</div>
 	</div>
 	<footer>
 		<div class="container">
@@ -484,6 +554,7 @@
 <script src="js/neutralino.js"></script>
 <script src="js/skillmods.js"></script>
 <script src="js/armor.js"></script>
+<script src="js/medicine.js"></script>
 <script src="js/weapons.js"></script>
 <script src="js/wearables.js"></script>
 <script src="js/main.js"></script>
@@ -496,9 +567,11 @@
 		weaponOutput = document.getElementById("weapon-output");
 		armorOutput = document.getElementById("armor-output");
 		wearableOutput = document.getElementById("wearable-output");
+		medicineOutput = document.getElementById("medicine-output");
 		drawTemplate("weapon");
 		drawTemplate("armor");
 		drawTemplate("wearable");
+		drawTemplate("medicine");
 		loadTabFromURL();
 	}
 
@@ -511,6 +584,8 @@
 				openTab(document.getElementById("armor-tab"), "armor-container");
 			case "wearable":
 				openTab(document.getElementById("wearable-tab"), "wearable-container");
+			case "medicine":
+				openTab(document.getElementById("medicine-tab"), "medicine-container");
 		}
 	}
 </script>
