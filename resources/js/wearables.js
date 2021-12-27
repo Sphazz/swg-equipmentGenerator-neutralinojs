@@ -1251,6 +1251,113 @@ function getWearable() {
                     template: "object/tangible/wearables/ithorian/ith_vest_s02.iff"
                 }
             ],
+        "Jacket":
+            [
+                {
+                    name: "Imperial Ace Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_ace_imperial.iff"
+                },
+                {
+                    name: "Privateer Ace Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_ace_privateer.iff"
+                },
+                {
+                    name: "Rebel Ace Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_ace_rebel.iff"
+                },
+                {
+                    name: "Shortsleeve Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s02.iff"
+                },
+                {
+                    name: "Long Formal Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s03.iff"
+                },
+                {
+                    name: "Padded Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s05.iff"
+                },
+                {
+                    name: "Vested Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s06.iff"
+                },
+                {
+                    name: "Scout Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s07.iff"
+                },
+                {
+                    name: "Rugged Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s08.iff"
+                },
+                {
+                    name: "Heavy Reinforced Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s10.iff"
+                },
+                {
+                    name: "Suit Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s11.iff"
+                },
+                {
+                    name: "Casual Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s12.iff"
+                },
+                {
+                    name: "Reinforced Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s13.iff"
+                },
+                {
+                    name: "Wooly Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s14.iff"
+                },
+                {
+                    name: "Labour Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s15.iff"
+                },
+                {
+                    name: "Cold Weather Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s16.iff"
+                },
+                {
+                    name: "Belted Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s17.iff"
+                },
+                {
+                    name: "Reinforced Pullover",
+                    template: "object/tangible/wearables/jacket/jacket_s18.iff"
+                },
+                {
+                    name: "Tight Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s19.iff"
+                },
+                {
+                    name: "Spec-Ops Duster",
+                    template: "object/tangible/wearables/jacket/jacket_s21.iff"
+                },
+                {
+                    name: "Dress Robe",
+                    template: "object/tangible/wearables/jacket/jacket_s22.iff"
+                },
+                {
+                    name: "Sleeveless Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s24.iff"
+                },
+                {
+                    name: "Dress Uniform Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s25.iff"
+                },
+                {
+                    name: "Flared Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s26.iff"
+                },
+                {
+                    name: "Desert Command Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s35.iff"
+                },
+                {
+                    name: "Pilot's Jacket",
+                    template: "object/tangible/wearables/jacket/jacket_s36.iff"
+                }
+            ],
         "Necklace":
             [
                 {
