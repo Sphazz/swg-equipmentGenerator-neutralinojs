@@ -79,6 +79,61 @@ const medicineObj = {
 	template: "object/tangible/medicine/crafted/crafted_stimpack_sm_s1_a.iff",
 }
 
+const medicineInputMap = {
+	"Stim Pack": {
+		enable: [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Ranged Stim Pack": {
+		enable: ["medicine-range"],
+		disable: ["medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Area Stim Pack": {
+		enable: ["medicine-range", "medicine-area"],
+		disable: ["medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Enhancement Medpack": {
+		enable: ["medicine-duration"],
+		disable: ["medicine-range", "medicine-area", "medicine-potency", "medicine-absorption"]
+	},
+	"Enhancement State Medpack": {
+		enable: ["medicine-duration", "medicine-absorption"],
+		disable: ["medicine-range", "medicine-area", "medicine-potency"]
+	},
+	"Cure Pack": {
+		enable: [],
+		disable: ["medicine-area", "medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Cure Pack (Area)": {
+		enable: ["medicine-area"],
+		disable: ["medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Disease Delivery Unit": {
+		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-area", "medicine-absorption"]
+	},
+	"Disease Delivery Unit (Area)": {
+		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-absorption"]
+	},
+	"Poison Delivery Unit": {
+		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-area", "medicine-absorption"]
+	},
+	"Poison Delivery Unit (Area)": {
+		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
+		disable: ["medicine-absorption"]
+	},
+	"Resuscitation Kit": {
+		enable: [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+	"Wound Pack": {
+		enable: [],
+		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
+	},
+}
+
 function initializeOutput(type) {
 	document.querySelector("#" + type + "-copyText").onclick = function () {
 		var output = getOutput(type);
@@ -177,61 +232,6 @@ armorSetCheckbox.addEventListener('change', (event) => {
 		armorTemplateSelect.setAttribute("disabled", "true");
 	drawTemplate("armor");
 });
-
-const medicineInputMap = {
-	"Stim Pack": {
-		enable : [],
-		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Ranged Stim Pack": {
-		enable: ["medicine-range"],
-		disable: ["medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Area Stim Pack": {
-		enable: ["medicine-range", "medicine-area"],
-		disable: ["medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Enhancement Medpack": {
-		enable: ["medicine-duration"],
-		disable: ["medicine-range", "medicine-area", "medicine-potency", "medicine-absorption"]
-	},
-	"Enhancement State Medpack": {
-		enable: ["medicine-duration", "medicine-absorption"],
-		disable: ["medicine-range", "medicine-area", "medicine-potency"]
-	},
-	"Cure Pack": {
-		enable: [],
-		disable: ["medicine-area", "medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Cure Pack (Area)": {
-		enable: ["medicine-area"],
-		disable: ["medicine-range", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Disease Delivery Unit": {
-		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
-		disable: ["medicine-area", "medicine-absorption"]
-	},
-	"Disease Delivery Unit (Area)": {
-		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
-		disable: ["medicine-absorption"]
-	},
-	"Poison Delivery Unit": {
-		enable: ["medicine-range", "medicine-duration", "medicine-potency"],
-		disable: ["medicine-area", "medicine-absorption"]
-	},
-	"Poison Delivery Unit (Area)": {
-		enable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency"],
-		disable: ["medicine-absorption"]
-	},
-	"Resuscitation Kit": {
-		enable: [],
-		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-	"Wound Pack": {
-		enable: [],
-		disable: ["medicine-range", "medicine-area", "medicine-duration", "medicine-potency", "medicine-absorption"]
-	},
-}
 
 function addTemplateSelectListener(select, json_arr, type) {
 	select.addEventListener('input', (event) => {
