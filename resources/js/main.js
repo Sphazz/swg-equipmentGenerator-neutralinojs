@@ -34,7 +34,6 @@ Neutralino.events.on("windowClose", myApp.onWindowClose);
 Neutralino.events.on("ready", () => {});
 
 var clientHeight = document.getElementById('weapon-tab').clientHeight;
-var clientWidth = document.getElementById('weapon-tab').clientWidth;
 
 const weapons_json = getWeapons();
 const armor_json = getArmor();
@@ -51,7 +50,9 @@ const weaponObj = {
 		1: "none",
 		2: "none",
 		3: "none",
-	}
+	},
+	dotType: 0,
+	dotAttribute: 0
 }
 
 const armorObj = {
@@ -77,6 +78,13 @@ const wearableObj = {
 
 const medicineObj = {
 	template: "object/tangible/medicine/crafted/crafted_stimpack_sm_s1_a.iff",
+}
+
+const weaponDotInputMap = {
+	"weapon-dotTypeSelect": {
+		enable: [],
+		disable: ["weapon-dotAttributeSelect", "weapon-dotStrength", "weapon-dotDuration", "weapon-dotPotency", "weapon-dotUses"]
+	}
 }
 
 const medicineInputMap = {
@@ -157,6 +165,8 @@ const weaponTemplateSelect = document.querySelector('#weapon-templateSelect');
 const weaponDamageTypeSelect = document.querySelector('#weapon-damageTypeSelect');
 const weaponArmorPiercingSelect = document.querySelector('#weapon-armorPiercingSelect');
 const weaponForceCostInput = document.querySelector('#weapon-forceCost');
+const weaponDotTypeSelect = document.querySelector('#weapon-dotTypeSelect');
+const weaponDotAttributeSelect = document.querySelector('#weapon-dotAttributeSelect');
 
 const armorData = document.querySelectorAll(".armor-data");
 const armorTypeSelect = document.querySelector('#armor-typeSelect');
@@ -220,6 +230,8 @@ function addSelectListener(select, type, obj, val) {
 addSelectListener(weaponTemplateSelect, "weapon", weaponObj, "template");
 addSelectListener(weaponDamageTypeSelect, "weapon", weaponObj, "damageType");
 addSelectListener(weaponArmorPiercingSelect, "weapon", weaponObj, "armorPiercing");
+addSelectListener(weaponDotTypeSelect, "weapon", weaponObj, "dotType");
+addSelectListener(weaponDotAttributeSelect, "weapon", weaponObj, "dotAttribute");
 addSelectListener(armorTemplateSelect, "armor", armorObj, "template");
 addSelectListener(armorRatingSelect, "armor", armorObj, "armorRating");
 addSelectListener(wearableTemplateSelect, "wearable", wearableObj, "template");
@@ -245,7 +257,7 @@ function addTemplateSelectListener(select, json_arr, type) {
 				disableInputOnType(armorSocketsInput, "PSG", select.value);
 				break;
 			case "medicine":
-				toggleMedicineInputs(select.value);
+				toggleInputMap(medicineInputMap, select.value);
 				break;
 		}
 		drawTemplate(type);
@@ -256,13 +268,23 @@ addTemplateSelectListener(armorTypeSelect, armor_json, "armor");
 addTemplateSelectListener(wearableTypeSelect, wearable_json, "wearable");
 addTemplateSelectListener(medicineTypeSelect, medicine_json, "medicine");
 
-function toggleMedicineInputs(val) {
-	for (var k in medicineInputMap[val].disable)
-		document.getElementById(medicineInputMap[val].disable[k]).setAttribute("disabled", "true");
-	for (var k in medicineInputMap[val].enable)
-		document.getElementById(medicineInputMap[val].enable[k]).removeAttribute("disabled");
+function toggleInputMap(obj, val) {
+	for (var k in obj[val].disable)
+		document.getElementById(obj[val].disable[k]).setAttribute("disabled", "true");
+	for (var k in obj[val].enable)
+		document.getElementById(obj[val].enable[k]).removeAttribute("disabled");
 }
-toggleMedicineInputs("Stim Pack");
+toggleInputMap(medicineInputMap, "Stim Pack");
+toggleInputMap(weaponDotInputMap, "weapon-dotTypeSelect");
+
+weaponDotTypeSelect.addEventListener('input', (event) => {
+	if (weaponDotTypeSelect.value != 0)
+		for (var k in weaponDotInputMap["weapon-dotTypeSelect"].disable)
+			document.getElementById(weaponDotInputMap["weapon-dotTypeSelect"].disable[k]).removeAttribute("disabled");
+	else
+		for (var k in weaponDotInputMap["weapon-dotTypeSelect"].disable)
+			document.getElementById(weaponDotInputMap["weapon-dotTypeSelect"].disable[k]).setAttribute("disabled", "true");
+});
 
 function populateTypeSelect(json_arr, arr_type, selected) {
 	var selectOutput = "";
@@ -359,7 +381,7 @@ function concatOutputValue(type) {
 
 	switch (type) {
 		case "weapon":
-			return weaponObj.template + " " + weaponObj.damageType + " " + weaponObj.armorPiercing + " " + drawString;
+			return weaponObj.template + " " + weaponObj.damageType + " " + weaponObj.armorPiercing + " " + drawString + weaponObj.dotType + " " + weaponObj.dotAttribute;
 		case "armor":
 			if (!armorSetCheckbox.checked)
 				return armorObj.armorRating + " " + drawString + armorObj.template;

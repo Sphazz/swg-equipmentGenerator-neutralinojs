@@ -206,13 +206,62 @@
 					<label for="weapon-aac">Action Attack Cost</label>
 					<input type="number" id="weapon-aac" name="aac" class="weapon-data" value="100" min="0" max="9999"">
 				</div>
-				<div class="input-wrapper">
+				<div class=" input-wrapper">
 					<label for="weapon-mac">Mind Attack Cost:</label>
 					<input type="number" id="weapon-mac" name="mac" class="weapon-data" value="100" min="0" max="9999">
 				</div>
 				<div class="input-wrapper">
 					<label for="weapon-fc">Force Cost:</label>
-					<input type="number" id="weapon-forceCost" name="weapon-forceCost" class="weapon-data" value="10" min="0" max="999" disabled="true">
+					<input type="number" id="weapon-forceCost" name="weapon-forceCost" class="weapon-data" value="10" min="0"
+						max="999" disabled="true">
+				</div>
+			</div>
+
+			<h3 class="toggle-wraper" toggle="dot-wrapper">Damage Over Time</h3>
+			<div id="dot-wrapper">
+				<div class="row">
+					<div class="input-wrapper">
+						<label for="weapon-dotTypeSelect">DoT Type:</label>
+						<select value="1" id="weapon-dotTypeSelect" name="weapon-dotTypeSelect">
+							<option value="0">None</option>
+							<option value="1">Poison</option>
+							<option value="2">Disease</option>
+							<option value="3">Fire</option>
+							<option value="4">Bleed</option>
+						</select>
+					</div>
+					<div class="input-wrapper">
+						<label for="weapon-dotAttributeSelect">DoT Attribute:</label>
+						<select value="1" id="weapon-dotAttributeSelect" name="weapon-dotAttributeSelect">
+							<option value="0">Health</option>
+							<option value="1">Strength</option>
+							<option value="2">Constitution</option>
+							<option value="3">Action</option>
+							<option value="4">Quickness</option>
+							<option value="5">Stamina</option>
+							<option value="6">Mind</option>
+							<option value="7">Focus</option>
+							<option value="8">Willpower</option>
+						</select>
+					</div>
+					<div class="input-wrapper">
+						<label for="weapon-dotStrength">DoT Strength</label>
+						<input type="number" id="weapon-dotStrength" name="dotStrength" class="weapon-data" value="0" min="0" max="999999"">
+					</div>
+				</div>
+				<div class="row second-row">
+					<div class="input-wrapper">
+						<label for="weapon-dotDuration">DoT Duration</label>
+						<input type="number" id="weapon-dotDuration" name="dotDuration" class="weapon-data" value="0" min="0" max="999999"">
+					</div>
+					<div class="input-wrapper">
+						<label for="weapon-dotPotency">DoT Potency</label>
+						<input type="number" id="weapon-dotPotency" name="dotPotency" class="weapon-data" value="0" min="0" max="999999"">
+					</div>
+					<div class="input-wrapper">
+						<label for="weapon-dotUses">DoT Uses</label>
+						<input type="number" id="weapon-dotUses" name="dotUses" class="weapon-data" value="0" min="0" max="999999"">
+					</div>
 				</div>
 			</div>
 
