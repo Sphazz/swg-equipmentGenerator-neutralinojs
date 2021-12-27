@@ -760,6 +760,25 @@ function getArmor() {
 					name: "Mabari Armorweave Pants",
 					template: "object/tangible/wearables/armor/zam/armor_zam_wesell_pants.iff"
 				}
+			],
+		"PSG":
+			[
+				{
+					name: "Imperial Personal Shield Generator",
+					template: "object/tangible/component/armor/shield_generator_personal_imperial_test.iff",
+				},
+				{
+					name: "Personal Shield Generator Mk.3",
+					template: "object/tangible/component/armor/shield_generator_personal_c.iff",
+				},
+				{
+					name: "Personal Shield Generator Mk.2",
+					template: "object/tangible/component/armor/shield_generator_personal_b.iff",
+				},
+				{
+					name: "Personal Shield Generator",
+					template: "object/tangible/component/armor/shield_generator_personal.iff",
+				},
 			]
 	}
 }
