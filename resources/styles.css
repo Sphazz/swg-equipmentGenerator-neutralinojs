@@ -28,6 +28,15 @@ body.medicine {
 html.dark-mode {
 	filter: invert(1);
 }
+@font-face {
+  font-family: "Roboto";
+  src: url("fonts/Roboto-Light.ttf");
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("fonts/Roboto-Regular.ttf");
+  font-weight: bold;
+}
 .container {
 	max-width: 960px;
 	padding: 20px 30px;
