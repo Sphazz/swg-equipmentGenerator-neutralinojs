@@ -10,14 +10,12 @@
     "writeToLogFile": false
   },
   "nativeBlockList": [],
-  "globalVariables": {
-    "TEST": "Test Value"
-  },
+  "globalVariables": {},
   "modes": {
     "window": {
       "title": "SWG Equipment Generator",
       "width": 940,
-      "height": 1047,
+      "height": 788,
       "minWidth": 720,
       "minHeight": 400,
       "fullScreen": false,
@@ -31,9 +29,7 @@
       "exitProcessOnClose": false
     },
     "browser": {
-      "globalVariables": {
-        "TEST": "Test value browser"
-      },
+      "globalVariables": {},
       "nativeBlockList": [
         "filesystem.*"
       ]
