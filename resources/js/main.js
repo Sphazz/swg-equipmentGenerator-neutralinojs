@@ -519,15 +519,29 @@ function openTab(e, tab) {
 	
 	e.className += " active";
 	document.body.className = tab;
+	setHeight(tab);
+}
+
+function setHeight(tab) {
 	clientHeight = document.getElementById(tab + '-container').clientHeight;
-	clientHeight += 126;
-	Neutralino.window.setSize( 
+	clientHeight += 129;
+	Neutralino.window.setSize(
 		{
 			height: clientHeight,
 			width: 940,
 		}
 	);
 }
+
+const toggleButtons = document.querySelectorAll(".accordian-toggle");
+toggleButtons.forEach(function (data) {
+	var accordian = document.getElementById(data.getAttribute("toggle"));
+	data.addEventListener('click', (event) => {
+		data.classList.toggle('accordian-btn-closed');
+		accordian.classList.toggle('accordian-closed');
+		setHeight(document.body.className);
+	});
+});
 
 document.querySelector("#toggleMode").onclick = function () {
 	var html = document.getElementsByTagName("html")[0];
