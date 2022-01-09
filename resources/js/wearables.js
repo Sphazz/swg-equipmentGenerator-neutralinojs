@@ -19,7 +19,7 @@ function getWearable() {
                     template: "object/tangible/wearables/apron/apron_s01_quest.iff"
                 },
             ],
-        "Backpack":
+        /*"Backpack":
             [
                 {
                     name: "Travel Pack",
@@ -57,7 +57,7 @@ function getWearable() {
                     name: "Singing Mountain Clan Backpack",
                     template: "object/tangible/wearables/backpack/singing_mountain_clan_backpack.iff"
                 }
-            ],
+            ],*/
         "Bandolier":
             [
                 {
